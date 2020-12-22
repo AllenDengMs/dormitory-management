@@ -12,50 +12,50 @@ public class StudentQueryBuilder extends PageQueryBuilder {
   public String phone;
 
   public Integer getId() {
-    Object object = this.filterObject.get("id");
-    if (object != null) {
-      return new Integer(object.toString());
-    }
-    return null;
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getName() {
-    Object object = this.filterObject.get("name");
-    if (object != null) {
-      return object.toString();
-    }
-    return null;
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getSex() {
-    Object object = this.filterObject.get("sex");
-    if (object != null) {
-      return object.toString();
-    }
-    return null;
+    return sex;
+  }
+
+  public void setSex(String sex) {
+    this.sex = sex;
   }
 
   public String getBuilding() {
-    Object object = this.filterObject.get("building");
-    if (object != null) {
-      return object.toString();
-    }
-    return null;
+    return building;
+  }
+
+  public void setBuilding(String building) {
+    this.building = building;
   }
 
   public String getRoomId() {
-    Object object = this.filterObject.get("roomId");
-    if (object != null) {
-      return object.toString();
-    }
-    return null;
+    return roomId;
+  }
+
+  public void setRoomId(String roomId) {
+    this.roomId = roomId;
   }
 
   public String getPhone() {
-    Object object = this.filterObject.get("phone");
-    if (object != null) {
-      return object.toString();
-    }
-    return null;
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 }
