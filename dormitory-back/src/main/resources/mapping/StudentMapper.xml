@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.organization.dormitory.dao.StudentMapper">
+  <insert id="addStudent">
+    INSERT INTO student (
+      id,
+      name,
+      sex,
+      building,
+      room_id,
+      phone
+    )VALUES (
+      #{id},
+      #{name},
+      #{sex},
+      #{building},
+      #{roomId},
+      #{phone}
+    )
+  </insert>
+
+  <update id="updateStudent">
+    UPDATE student SET
+      name = #{name},
+      phone = #{phone},
+      building = #{building},
+      sex = #{sex},
+      room_id = #{roomId}
+    WHERE id = #{id}
+  </update>
+
+  <delete id="deleteStudent">
+    DELETE FROM student WHERE id = #{id}
+  </delete>
+
+  <select id="countStudents" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM student
+    <include refid="studentQueryBuilder"/>
+  </select>
+
+  <select id="queryStudents" resultType="cn.organization.dormitory.entity.Student">
+    SELECT * FROM student
+    <include refid="studentQueryBuilder"/>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <sql id="studentQueryBuilder">
+    WHERE 1=1
+    <if test="name != null">
+      AND name LIKE concat('%', #{name}, '%')
+    </if>
+    <if test="id != null">
+      AND id LIKE concat('%', #{id}, '%')
+    </if>
+    <if test="roomId != null">
+      AND room_id LIKE concat('%', #{roomId}, '%')
+    </if>
+    <if test="phone != null">
+      AND phone LIKE concat('%', #{phone}, '%')
+    </if>
+    <if test="building != null">
+      AND building LIKE concat('%', #{building}, '%')
+    </if>
+  </sql>
+</mapper>

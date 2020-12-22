@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    username: root
+    password: bcwl@mysql
+    url: jdbc:mysql://tencent.cbc189.com:1936/dormitory?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.entity
+
+#showSql
+logging:
+  level:
+    org.mybatis.spring: debug
+    org.apache.ibatis: debug

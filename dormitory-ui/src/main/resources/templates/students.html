@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <div th:replace="../templates/common/layout :: Title"></div>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+<!--    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">-->
+    <link href="vendor/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="../templates/common/layout :: Sidebar"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:replace="../templates/common/layout :: TopBar"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+<!--
+                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p>
+-->
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"><p> </p></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                    id="table"
+                                    data-toggle="table"
+                                    data-height="460"
+                                    data-pagination="true"
+                                    data-side-pagination="server"
+                                    data-show-refresh="true"
+                                    data-search="true"
+                                    data-advanced-search="true"
+                                    data-id-table="advancedTable"
+                                    data-buttons="buttons"
+                                    data-buttons-class="primary"
+                                    data-page-list="[10, 25, 50, 100, 200]"
+                                    data-url="http://127.0.0.1:8081/students">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id">学号</th>
+                                        <th data-field="name">姓名</th>
+                                        <th data-field="sex">性别</th>
+                                        <th data-field="building">宿舍楼</th>
+                                        <th data-field="roomId">寝室编号</th>
+                                        <th data-field="phone">电话</th>
+                                        <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:replace="../templates/common/layout :: Footer"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div th:replace="../templates/common/layout :: LogoutModal"></div>
+
+    <!--  修改student modal  -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStudentModalTitle">修改信息</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="editStudentId">学号</label>
+                            <input type="text" class="form-control" id="editStudentId" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentName">姓名</label>
+                            <input type="text" class="form-control" id="editStudentName" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentSex">性别</label>
+                            <input type="text" class="form-control" id="editStudentSex" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentBuilding">宿舍楼</label>
+                            <input type="text" class="form-control" id="editStudentBuilding" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentRoomId">寝室编号</label>
+                            <input type="text" class="form-control" id="editStudentRoomId" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentPhone">手机</label>
+                            <input type="text" class="form-control" id="editStudentPhone" placeholder="input placeholder">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
+                    <button id="clickSubmitEditStudentFormButton" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  新增student modal  -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addStudentModalTitle">新增学生</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="addStudentId">学号</label>
+                            <input type="text" class="form-control" id="addStudentId">
+                        </div>
+                        <div class="form-group">
+                            <label for="addStudentName">姓名</label>
+                            <input type="text" class="form-control" id="addStudentName">
+                        </div>
+                        <div class="form-group">
+                            <label for="addStudentSex">性别</label>
+                            <input type="text" class="form-control" id="addStudentSex">
+                        </div>
+                        <div class="form-group">
+                            <label for="addStudentBuilding">宿舍楼</label>
+                            <input type="text" class="form-control" id="addStudentBuilding">
+                        </div>
+                        <div class="form-group">
+                            <label for="addStudentRoomId">寝室编号</label>
+                            <input type="text" class="form-control" id="addStudentRoomId">
+                        </div>
+                        <div class="form-group">
+                            <label for="addStudentPhone">手机</label>
+                            <input type="text" class="form-control" id="addStudentPhone">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
+                    <button id="clickSubmitAddStudentFormButton" type="button" class="btn btn-primary">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="vendor/bootstrap-table/bootstrap-table-toolbar.min.js"></script>
+
+    <script>
+        var $table = $('#table')
+
+        function operateFormatter(value, row, index) {
+            return [
+                '<a id="clickEditStudentButton" class="edit" href="javascript:void(0)" title="编辑">',
+                '<i class="fa fa-edit"></i>',
+                '</a>  ',
+                '<a id="clickDeleteStudentButton" class="remove" href="javascript:void(0)" title="删除">',
+                '<i class="fa fa-trash"></i>',
+                '</a>'
+            ].join('')
+        }
+
+        window.operateEvents = {
+            'click #clickEditStudentButton': function (e, value, row, index) {
+                document.getElementById("editStudentId").value = row.id;
+                document.getElementById("editStudentName").value = row.name;
+                document.getElementById("editStudentSex").value = row.sex;
+                document.getElementById("editStudentBuilding").value = row.building;
+                document.getElementById("editStudentRoomId").value = row.roomId;
+                document.getElementById("editStudentPhone").value = row.phone;
+                $('#editStudentModal').modal('show')
+            },
+            'click #clickDeleteStudentButton': function (e, value, row, index) {
+                $table.bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                })
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8081/students/delete/" + row.id,
+                    data: { page: $("#page").val(), limit: 5 },
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+            }
+        }
+
+        $(function () {
+            $("#clickSubmitEditStudentFormButton").click(function(){
+                var studentJson = {
+                    id : document.getElementById("editStudentId").value,
+                    name : document.getElementById("editStudentName").value,
+                    sex : document.getElementById("editStudentSex").value ,
+                    building : document.getElementById("editStudentBuilding").value,
+                    roomId : document.getElementById("editStudentRoomId").value,
+                    phone : document.getElementById("editStudentPhone").value
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8081/students/update",
+                    data: studentJson,
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+                alert("信息提交成功");
+                $table.bootstrapTable('refresh');
+            });
+        });
+
+        $(function () {
+            $("#clickSubmitAddStudentFormButton").click(function(){
+                var studentJson = {
+                    id : document.getElementById("addStudentId").value,
+                    name : document.getElementById("addStudentName").value,
+                    sex : document.getElementById("addStudentSex").value ,
+                    building : document.getElementById("addStudentBuilding").value,
+                    roomId : document.getElementById("addStudentRoomId").value,
+                    phone : document.getElementById("addStudentPhone").value
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8081/students/add",
+                    data: studentJson,
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+                alert("信息提交成功");
+                $table.bootstrapTable('refresh');
+            });
+        });
+
+        $(function() {
+            $table.bootstrapTable()
+        })
+
+        function buttons () {
+            return {
+                btnAdd: {
+                    text: '添加学生',
+                    icon: 'fa-plus',
+                    event: function () {
+                        // alert('Do some stuff to e.g. add a new row')
+                        document.getElementById("addStudentId").value = '';
+                        document.getElementById("addStudentName").value = '';
+                        document.getElementById("addStudentSex").value = '';
+                        document.getElementById("addStudentBuilding").value = '';
+                        document.getElementById("addStudentRoomId").value = '';
+                        document.getElementById("addStudentPhone").value = '';
+                        $('#addStudentModal').modal('show')
+                    },
+                    attributes: {
+                        title: '添加学生'
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
