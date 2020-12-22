@@ -21,8 +21,8 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-<!--    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">-->
     <link href="vendor/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
 
 </head>
 
@@ -49,20 +49,9 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-<!--
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p>
--->
-                    <!-- DataTales Example -->
-                    <!--
-                                                        data-advanced-search="true"
-                                    data-id-table="advancedTable"
-                    -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary"><p> </p></h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><p>学生列表</p></h6>
                         </div>
                         <div class="card-body">
                             <div id="toolbar">
@@ -84,11 +73,11 @@
                                     data-url="http://127.0.0.1:8081/students">
                                     <thead>
                                     <tr>
-                                        <th data-field="id">学号</th>
-                                        <th data-field="name">姓名</th>
+                                        <th data-field="studentId">学号</th>
+                                        <th data-field="studentName">姓名</th>
                                         <th data-field="sex">性别</th>
-                                        <th data-field="building">宿舍楼</th>
-                                        <th data-field="roomId">寝室编号</th>
+                                        <th data-field="buildingName">宿舍楼</th>
+                                        <th data-field="roomName">寝室编号</th>
                                         <th data-field="phone">电话</th>
                                         <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
                                     </tr>
@@ -122,53 +111,6 @@
     <!-- Logout Modal-->
     <div th:replace="../templates/common/layout :: LogoutModal"></div>
 
-    <!--  修改student modal  -->
-    <div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editStudentModalTitle">修改信息</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="editStudentId" class="studentIdLabel"></label>
-                            <input type="text" class="form-control" id="editStudentId" placeholder="input placeholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentName" class="studentNameLabel"></label>
-                            <input type="text" class="form-control" id="editStudentName" placeholder="input placeholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentSex" class="studentSexLabel"></label>
-                            <input type="text" class="form-control" id="editStudentSex" placeholder="input placeholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentBuilding" class="studentBuildingLabel"></label>
-                            <input type="text" class="form-control" id="editStudentBuilding" placeholder="input placeholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentRoomId" class="studentRoomIdLabel"></label>
-                            <input type="text" class="form-control" id="editStudentRoomId" placeholder="input placeholder">
-                        </div>
-                        <div class="form-group">
-                            <label for="editStudentPhone" class="studentPhoneLabel"></label>
-                            <input type="text" class="form-control" id="editStudentPhone" placeholder="input placeholder">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
-                    <button id="submitEditStudentFormButton" type="button" class="btn btn-primary">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!--  新增student modal  -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -191,16 +133,37 @@
                             <input type="text" class="form-control" id="addStudentName">
                         </div>
                         <div class="form-group">
-                            <label for="addStudentSex" class="studentSexLabel">性别</label>
-                            <input type="text" class="form-control" id="addStudentSex">
+                            <label for="checkboxOnAddStudentSex" class="studentSexLabel">性别</label>
+                            <div class="row" id="checkboxOnAddStudentSex">
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="add_student_form_sex_male" name="sexOptionOnAddStudentForm" class="custom-control-input" value="男">
+                                        <label class="custom-control-label" for="add_student_form_sex_male">男</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="add_student_form_sex_female" name="sexOptionOnAddStudentForm" class="custom-control-input"  value="女">
+                                        <label class="custom-control-label" for="add_student_form_sex_female">女</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="addStudentBuilding" class="studentBuildingLabel">楼栋</label>
-                            <input type="text" class="form-control" id="addStudentBuilding">
-                        </div>
-                        <div class="form-group">
-                            <label for="addStudentRoomId" class="studentRoomIdLabel">宿舍编号</label>
-                            <input type="text" class="form-control" id="addStudentRoomId">
+                            <div class="row">
+                                <div class="col">
+                                    <select class="selectpicker form-control"
+                                            onchange="initRoomOptions(getValueIdFromOptions('#buildingOptionsOnAddStudentForm'), '#roomOptionsOnAddStudentForm')"
+                                            id="buildingOptionsOnAddStudentForm" name="buildingOptionsOnAddStudentForm">
+                                        <option value="">--请选择楼栋--</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="selectpicker form-control" id="roomOptionsOnAddStudentForm" name="roomOptionsOnAddStudentForm">
+                                        <option value="">--请选择房间--</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="addStudentPhone" class="studentPhoneLabel">手机</label>
@@ -211,6 +174,75 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
                     <button id="clickSubmitAddStudentFormButton" type="button" class="btn btn-primary">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  修改student modal  -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStudentModalTitle">修改信息</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input id="editStudentKeyId" type="text"style="display:none" >
+                        <div class="form-group">
+                            <label for="editStudentId" class="studentIdLabel">学号</label>
+                            <input type="text" class="form-control" id="editStudentId">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentName" class="studentNameLabel">姓名</label>
+                            <input type="text" class="form-control" id="editStudentName">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkboxOnEditStudentSex" class="studentSexLabel">性别</label>
+                            <div class="row" id="checkboxOnEditStudentSex">
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="edit_student_form_sex_female" name="sexOptionOnEditStudentForm" class="custom-control-input" value="男">
+                                        <label class="custom-control-label" for="edit_student_form_sex_female">男</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="edit_student_form_sex_male" name="sexOptionOnEditStudentForm" class="custom-control-input"  value="女">
+                                        <label class="custom-control-label" for="edit_student_form_sex_male">女</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <select class="selectpicker form-control"
+                                            onchange="initRoomOptions(getValueIdFromOptions('#buildingOptionsOnEditStudentForm'), '#roomOptionsOnEditStudentForm')"
+                                            id="buildingOptionsOnEditStudentForm" name="buildingOptionsOnEditStudentForm">
+                                        <option value="">--请选择楼栋--</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="selectpicker form-control" id="roomOptionsOnEditStudentForm" name="roomOptionsOnEditStudentForm">
+                                        <option value="">--请选择房间--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editStudentPhone" class="studentPhoneLabel">手机</label>
+                            <input type="text" class="form-control" id="editStudentPhone">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
+                    <button id="submitEditStudentFormButton" type="button" class="btn btn-primary">保存</button>
                 </div>
             </div>
         </div>
@@ -238,16 +270,37 @@
                             <input type="text" class="form-control" id="searchStudentName">
                         </div>
                         <div class="form-group">
-                            <label for="searchStudentSex" class="studentSexLabel">性别</label>
-                            <input type="text" class="form-control" id="searchStudentSex">
+                            <label for="checkboxOnSearchStudentSex" class="studentSexLabel">性别</label>
+                            <div class="row" id="checkboxOnSearchStudentSex">
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="search_student_form_sex_male" name="sexOptionOnSearchStudentForm" class="custom-control-input" value="男">
+                                        <label class="custom-control-label" for="search_student_form_sex_male">男</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="search_student_form_sex_female" name="sexOptionOnSearchStudentForm" class="custom-control-input"  value="女">
+                                        <label class="custom-control-label" for="search_student_form_sex_female">女</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="searchStudentBuilding" class="studentBuildingLabel">楼栋</label>
-                            <input type="text" class="form-control" id="searchStudentBuilding">
-                        </div>
-                        <div class="form-group">
-                            <label for="searchStudentRoomId" class="studentRoomIdLabel">宿舍编号</label>
-                            <input type="text" class="form-control" id="searchStudentRoomId">
+                            <div class="row">
+                                <div class="col">
+                                    <select class="selectpicker form-control"
+                                            onchange="initRoomOptions(getValueIdFromOptions('#buildingOptionsOnSearchStudentForm'), '#roomOptionsOnSearchStudentForm')"
+                                            id="buildingOptionsOnSearchStudentForm" name="buildingOptionsOnSearchStudentForm">
+                                        <option value="">--请选择楼栋--</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="selectpicker form-control" id="roomOptionsOnSearchStudentForm" name="roomOptionsOnSearchStudentForm">
+                                        <option value="">--请选择房间--</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="searchStudentPhone" class="studentPhoneLabel">手机</label>
@@ -276,22 +329,98 @@
     <!-- Page level plugins -->
     <script src="vendor/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="vendor/bootstrap-table/bootstrap-table-toolbar.min.js"></script>
+    <script src="vendor/bootstrap-select/bootstrap-select.min.js"></script>
 
-    <!-- 全局替换名称标签 -->
+    <!-- 下拉框插件相关-->
     <script>
-        $(function () {
-            // document.querySelector(".studentIdLabel").innerHTML = "学号";
-            // document.querySelector(".studentNameLabel").innerHTML = "姓名";
-            // document.querySelector(".studentSexLabel").innerHTML = "性别";
-            // document.querySelector(".studentBuildingLabel").innerHTML = "宿舍楼";
-            // document.querySelector(".studentRoomIdLabel").innerHTML = "寝室编号";
-            // document.querySelector(".studentPhoneLabel").innerHTML = "电话";
-        })
+        $(document).ready(function(){
+            var buildings = getBuildings();
+            initBuildingOptions("#buildingOptionsOnAddStudentForm", buildings, '#roomOptionsOnAddStudentForm');
+            initBuildingOptions("#buildingOptionsOnSearchStudentForm", buildings, '#roomOptionsOnSearchStudentForm');
+            initBuildingOptions("#buildingOptionsOnEditStudentForm", buildings);
+        });// onReady
+
+        function getValueIdFromOptions(elementId) {
+            var idSelect = $(elementId).val();
+            var id = idSelect == '' ? 0 : idSelect; // 如果是空窜，则改成0
+            return id;
+        }
+
+        function getBuildings() {
+            var buildings;
+            $.ajax({
+                url : "http://127.0.0.1:8081/buildings?offset=0&limit=1000",
+                async : false,
+                type : "GET",
+                success : function(result) {
+                    buildings = result.rows;
+                },
+                error : function(result) {
+                    alert("获取楼栋列表数据出错")
+                }
+            });// ajax
+            return buildings;
+        }
+
+        function initBuildingOptions(buildingOptionElementId, buildings, disableRoomOptionElementId){
+            var buildingOptionsElement = $(buildingOptionElementId);
+            buildingOptionsElement.find("option:not(:first)").remove();
+            for (var i in buildings) {
+                var building = buildings[i];
+                var optionText = building.buildingName;
+                var optionValue = building.buildingId;
+                buildingOptionsElement.append(new Option(optionText, optionValue));
+            }
+            // 刷新buidling select
+            buildingOptionsElement.selectpicker('refresh');
+            // 禁用room的 select
+            if(disableRoomOptionElementId) {
+                $(disableRoomOptionElementId).prop('disabled', true);
+                $(disableRoomOptionElementId).selectpicker('refresh');
+            }
+        }
+
+        function getRoomsByBuildingId(buildingId) {
+            var rooms;
+            $.ajax({
+                url : "http://127.0.0.1:8081/rooms?offset=0&limit=1000&buildingId=" + buildingId,
+                async : false,
+                type : "GET",
+                success : function(result) {
+                    rooms = result.rows;
+                }
+            });// ajax
+            return rooms;
+        }
+
+        function initRoomOptions(buildingId, optionsElementId) {
+            // 当楼栋变动时，初始化房间
+            var selectObj = $(optionsElementId);
+            if (buildingId == '') {
+                // 如果选了选了默认选项，则清空后面的选项
+                selectObj.find("option:not(:first)").remove();
+                selectObj.prop('disabled', true);
+                selectObj.selectpicker('refresh');
+            } else {
+            // 初始化房间选项
+                selectObj.prop('disabled', false);
+                selectObj.find("option:not(:first)").remove();
+                var rooms = getRoomsByBuildingId(buildingId);
+                for (var i in rooms) {
+                    var roomObj = rooms[i];
+                    var optionValue = roomObj.roomId;
+                    var optionText = roomObj.roomName;
+                    selectObj.append(new Option(optionText, optionValue));
+                }
+                // 刷新select
+                selectObj.selectpicker('refresh');
+            }
+        }
     </script>
 
+    <!-- 表格相关 -->
     <script>
         var $table = $('#table')
-        var searchParamPhone;
 
         function operateFormatter(value, row, index) {
             return [
@@ -306,12 +435,14 @@
 
         window.operateEvents = {
             'click #editStudentButton': function (e, value, row, index) {
-                document.getElementById("editStudentId").value = row.id;
-                document.getElementById("editStudentName").value = row.name;
-                document.getElementById("editStudentSex").value = row.sex;
-                document.getElementById("editStudentBuilding").value = row.building;
-                document.getElementById("editStudentRoomId").value = row.roomId;
+                document.getElementById("editStudentId").value = row.studentId;
+                document.getElementById("editStudentKeyId").value = row.id;
+                document.getElementById("editStudentName").value = row.studentName;
                 document.getElementById("editStudentPhone").value = row.phone;
+                $('input[name="sexOptionOnEditStudentForm"]').prop('checked', row.sex);
+                $('#buildingOptionsOnEditStudentForm').selectpicker('val', '' + row.buildingId);
+                initRoomOptions(row.buildingId, '#roomOptionsOnEditStudentForm')
+                $('#roomOptionsOnEditStudentForm').selectpicker('val', '' + row.roomId);
                 $('#editStudentModal').modal('show')
             },
             'click #deleteStudentButton': function (e, value, row, index) {
@@ -330,11 +461,11 @@
         }
 
         function queryParams(params) {
-            params.id = document.getElementById("searchStudentId").value;
-            params.name = document.getElementById("searchStudentName").value;
-            params.sex = document.getElementById("searchStudentSex").value ;
-            params.building = document.getElementById("searchStudentBuilding").value;
-            params.roomId = document.getElementById("searchStudentRoomId").value;
+            params.studentId = document.getElementById("searchStudentId").value;
+            params.studentName = document.getElementById("searchStudentName").value;
+            params.sex = $('input[name="sexOptionOnSearchStudentForm"]:checked').val();
+            params.buildingId = $("#buildingOptionsOnSearchStudentForm").val();
+            params.roomId = $("#roomOptionsOnSearchStudentForm").val();
             params.phone = document.getElementById("searchStudentPhone").value;
             return params
         }
@@ -343,11 +474,12 @@
         $(function () {
             $("#submitEditStudentFormButton").click(function(){
                 var studentJson = {
-                    id : document.getElementById("editStudentId").value,
-                    name : document.getElementById("editStudentName").value,
-                    sex : document.getElementById("editStudentSex").value ,
-                    building : document.getElementById("editStudentBuilding").value,
-                    roomId : document.getElementById("editStudentRoomId").value,
+                    id : document.getElementById("editStudentKeyId").value,
+                    studentId : document.getElementById("editStudentId").value,
+                    studentName : document.getElementById("editStudentName").value,
+                    sex : $('input[name="sexOptionOnEditStudentForm"]:checked').val(),
+                    buildingId : getValueIdFromOptions("#buildingOptionsOnEditStudentForm"),
+                    roomId : getValueIdFromOptions("#roomOptionsOnEditStudentForm"),
                     phone : document.getElementById("editStudentPhone").value
                 };
                 $.ajax({
@@ -355,10 +487,11 @@
                     url: "http://localhost:8081/students/update",
                     data: studentJson,
                     dataType: "JSON",
-                    success: function(result) {}
+                    success: function(result) {
+                        alert("信息提交成功");
+                        $table.bootstrapTable('refresh');
+                    }
                 });
-                alert("信息提交成功");
-                $table.bootstrapTable('refresh');
             });
 
             $("#searchStudentFormButton").click(function () {
@@ -369,31 +502,35 @@
             $("#clearSearchStudentFormButton").click(function () {
                 document.getElementById("searchStudentId").value = '';
                 document.getElementById("searchStudentName").value = '';
-                document.getElementById("searchStudentSex").value = '';
-                document.getElementById("searchStudentBuilding").value = '';
-                document.getElementById("searchStudentRoomId").value = '';
+                $('input[name="sexOptionOnSearchStudentForm"]').prop('checked', false);
+                // 重置add表单的下拉框
+                $("#buildingOptionsOnSearchStudentForm").selectpicker('val', '');
+                $("#roomOptionsOnSearchStudentForm").find("option:not(:first)").remove();
+                $("#roomOptionsOnSearchStudentForm").prop('disabled', true);
+                $("#roomOptionsOnSearchStudentForm").selectpicker('refresh');
                 document.getElementById("searchStudentPhone").value = '';
             });
 
             $("#addStudentButton").click(function () {
                 document.getElementById("addStudentId").value = '';
                 document.getElementById("addStudentName").value = '';
-                document.getElementById("addStudentSex").value = '';
-                document.getElementById("addStudentBuilding").value = '';
-                document.getElementById("addStudentRoomId").value = '';
                 document.getElementById("addStudentPhone").value = '';
+                $('input[name="sexOptionOnAddStudentForm"]').prop('checked', false);
+                // 重置add表单的下拉框
+                $("#buildingOptionsOnAddStudentForm").selectpicker('val', '');
+                $("#roomOptionsOnAddStudentForm").find("option:not(:first)").remove();
+                $("#roomOptionsOnAddStudentForm").prop('disabled', true);
+                $("#roomOptionsOnAddStudentForm").selectpicker('refresh');
                 $('#addStudentModal').modal('show')
             });
-        });
 
-        $(function () {
             $("#clickSubmitAddStudentFormButton").click(function(){
                 var studentJson = {
-                    id : document.getElementById("addStudentId").value,
-                    name : document.getElementById("addStudentName").value,
-                    sex : document.getElementById("addStudentSex").value ,
-                    building : document.getElementById("addStudentBuilding").value,
-                    roomId : document.getElementById("addStudentRoomId").value,
+                    studentId : document.getElementById("addStudentId").value,
+                    studentName : document.getElementById("addStudentName").value,
+                    sex : $('input[name="sexOptionOnAddStudentForm"]:checked').val(),
+                    buildingId : getValueIdFromOptions("#buildingOptionsOnAddStudentForm"),
+                    roomId : getValueIdFromOptions("#roomOptionsOnAddStudentForm"),
                     phone : document.getElementById("addStudentPhone").value
                 };
                 $.ajax({
@@ -401,10 +538,10 @@
                     url: "http://localhost:8081/students/add",
                     data: studentJson,
                     dataType: "JSON",
-                    success: function(result) {}
+                    success: function(result) {
+                        $table.bootstrapTable('refresh');
+                    }
                 });
-                alert("信息提交成功");
-                $table.bootstrapTable('refresh');
             });
         });
 

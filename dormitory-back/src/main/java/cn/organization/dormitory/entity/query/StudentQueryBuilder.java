@@ -4,27 +4,28 @@ package cn.organization.dormitory.entity.query;
  * Created by Allen on 2020/12/20.
  */
 public class StudentQueryBuilder extends PageQueryBuilder {
-  public Integer id;
-  public String name;
+
+  public Integer studentId;
+  public String studentName;
   public String sex;
-  public String building;
-  public String roomId;
+  public Integer buildingId;
+  public Integer roomId;
   public String phone;
 
-  public Integer getId() {
-    return id;
+  public Integer getStudentId() {
+    return studentId;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setStudentId(Integer studentId) {
+    this.studentId = studentId;
   }
 
-  public String getName() {
-    return name;
+  public String getStudentName() {
+    return studentName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setStudentName(String studentName) {
+    this.studentName = studentName;
   }
 
   public String getSex() {
@@ -35,19 +36,19 @@ public class StudentQueryBuilder extends PageQueryBuilder {
     this.sex = sex;
   }
 
-  public String getBuilding() {
-    return building;
+  public Integer getBuildingId() {
+    return buildingId;
   }
 
-  public void setBuilding(String building) {
-    this.building = building;
+  public void setBuildingId(Integer buildingId) {
+    this.buildingId = buildingId;
   }
 
-  public String getRoomId() {
+  public Integer getRoomId() {
     return roomId;
   }
 
-  public void setRoomId(String roomId) {
+  public void setRoomId(Integer roomId) {
     this.roomId = roomId;
   }
 

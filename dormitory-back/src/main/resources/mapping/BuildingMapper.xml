@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.organization.dormitory.dao.BuildingMapper">
+
+  <insert id="addBuilding">
+    INSERT INTO `building`
+    (`building_name`, `memo`)
+    VALUES
+    (#{buildingName}, #{memo});
+  </insert>
+
+  <update id="updateBuilding">
+    UPDATE building SET
+      building_name = #{buildingName},
+      memo = #{memo}
+    WHERE building_id = #{buildingId}
+  </update>
+
+  <delete id="deleteBuilding">
+    DELETE FROM building WHERE building_id = #{buildingId}
+  </delete>
+
+  <select id="countBuildings" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM building
+    <include refid="queryBuildingBuilder"/>
+  </select>
+
+  <select id="queryBuildings" resultType="cn.organization.dormitory.entity.Building">
+    SELECT * FROM building
+    <include refid="queryBuildingBuilder"/>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <sql id="queryBuildingBuilder">
+    WHERE 1 = 1
+    <if test="buildingName != null">
+      AND building_name LIKE concat('%', #{buildingName}, '%')
+    </if>
+    <if test="memo != null">
+      AND memo LIKE concat('%', #{memo}, '%')
+    </if>
+  </sql>
+</mapper>

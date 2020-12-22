@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.organization.dormitory.dao.RoomMapper">
+
+  <insert id="addRoom">
+    INSERT INTO `room`
+    (`room_name`, `building_id`, `memo`)
+    VALUES
+    (#{roomName}, #{buildingId}, #{memo});
+  </insert>
+
+  <update id="updateRoom">
+    UPDATE room SET
+      room_name = #{roomName},
+      building_id = #{buildingId},
+      memo = #{memo}
+    WHERE room_id = #{roomId}
+  </update>
+
+  <delete id="deleteRoom">
+    DELETE FROM room WHERE room_id = #{roomId}
+  </delete>
+
+  <select id="countRooms" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM room r
+    <include refid="queryRoomsJoinOnTables"/>
+    <include refid="queryRoomBuilder"/>
+  </select>
+
+  <select id="queryRooms" resultType="cn.organization.dormitory.entity.Room">
+    SELECT r.*, b.building_name FROM room r
+    <include refid="queryRoomsJoinOnTables"/>
+    <include refid="queryRoomBuilder"/>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <sql id="queryRoomsJoinOnTables">
+    LEFT JOIN building b ON b.building_id = r.building_id
+  </sql>
+
+  <sql id="queryRoomBuilder">
+    WHERE 1 = 1
+    <if test="buildingId != null">
+      AND r.building_id = #{buildingId}
+    </if>
+    <if test="roomName != null">
+      AND r.room_name LIKE concat('%', #{roomName}, '%')
+    </if>
+    <if test="memo != null">
+      AND r.memo LIKE concat('%', #{memo}, '%')
+    </if>
+  </sql>
+</mapper>

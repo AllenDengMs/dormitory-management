@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <div th:replace="../templates/common/layout :: Title"></div>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+<!--    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">-->
+    <link href="vendor/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div th:replace="../templates/common/layout :: Sidebar"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:replace="../templates/common/layout :: TopBar"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary"><p>寝室列表</p></h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="toolbar">
+                                <button id="addRoomButton" class="btn btn-success">新增房间</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table
+                                    id="table"
+                                    data-toggle="table"
+                                    data-height="460"
+                                    data-pagination="true"
+                                    data-side-pagination="server"
+                                    data-show-refresh="true"
+                                    data-toolbar="#toolbar"
+                                    data-buttons="buttons"
+                                    data-buttons-class="primary"
+                                    data-query-params="queryParams"
+                                    data-response-handler="responseHandler"
+                                    data-page-list="[10, 25, 50, 100, 200]"
+                                    data-url="http://127.0.0.1:8081/rooms">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="index" data-width="50">序号</th>
+                                        <th data-field="buildingName" data-width="250">所属楼栋</th>
+                                        <th data-field="roomName" data-width="250">房间编号</th>
+                                        <th data-field="memo">简介</th>
+                                        <th data-field="operate" data-width="100" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:replace="../templates/common/layout :: Footer"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div th:replace="../templates/common/layout :: LogoutModal"></div>
+
+    <!--  修改room modal  -->
+    <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoomModalTitle">修改信息</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="buildingOptionsOnEditRoomForm" name="buildingOptionsOnEditRoomForm">
+                                <option value="">--请选择楼栋--</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRoomName" class="roomNameLabel">房间编号</label>
+                            <input type="text" class="form-control" id="editRoomName" placeholder="input placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label for="editRoomMemo" class="memo">简介</label>
+                            <input type="text" class="form-control" id="editRoomMemo" placeholder="input placeholder">
+                        </div>
+                        <input type='text' id='editRoomId' style='display:none'>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
+                    <button id="submitEditRoomFormButton" type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  新增room modal  -->
+    <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRoomModalTitle">新增房间</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="buildingOptionsOnAddRoomForm" name="buildingOptionsOnAddRoomForm">
+                                <option value="">--请选择楼栋--</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addRoomName" class="roomNameLabel">房间编号</label>
+                            <input type="text" class="form-control" id="addRoomName">
+                        </div>
+                        <div class="form-group">
+                            <label for="addRoomMemo" class="roomMemoLabel">简介</label>
+                            <input type="text" class="form-control" id="addRoomMemo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">关闭</button>
+                    <button id="submitAddRoomFormButton" type="button" class="btn btn-primary">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  查询room信息 modal  -->
+    <div class="modal fade" id="searchRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchRoomModalTitle">查询条件</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="searchRoomName" class="roomNameLabel">房间编号</label>
+                            <input type="text" class="form-control" id="searchRoomName">
+                        </div>
+                        <div class="form-group">
+                            <label for="searchRoomMemo" class="roomMemoLabel">简介</label>
+                            <input type="text" class="form-control" id="searchRoomMemo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="clearSearchRoomFormButton" type="button" class="btn btn-secondary">清空</button>
+                    <button id="searchRoomFormButton" type="button" class="btn btn-primary">查询</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="vendor/bootstrap-table/bootstrap-table-toolbar.min.js"></script>
+    <script src="vendor/bootstrap-select/bootstrap-select.min.js"></script>
+    <link href="vendor/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+    <!-- 下拉选项框相关 -->
+    <script>
+        $(document).ready(function(){
+            var buildings = getBuildings();
+            initBuildingOptions("#buildingOptionsOnAddRoomForm", buildings);
+            initBuildingOptions("#buildingOptionsOnEditRoomForm", buildings);
+        });// onReady
+
+        function getBuildings() {
+            var buildings;
+            $.ajax({
+                url : "http://127.0.0.1:8081/buildings?offset=0&limit=1000",
+                async : false,
+                type : "GET",
+                success : function(result) {
+                    buildings = result.rows;
+                },
+                error : function(result) {
+                    alert("获取楼栋列表数据出错")
+                }
+            });// ajax
+            return buildings;
+        }
+
+        function initBuildingOptions(elementId, buildings) {
+            var buildingOptionsElement = $(elementId);
+            buildingOptionsElement.find("option:not(:first)").remove();
+            for (var i in buildings) {
+                var building = buildings[i];
+                var optionText = building.buildingName;
+                var optionValue = building.buildingId;
+                buildingOptionsElement.append(new Option(optionText, optionValue));
+            }
+            // 刷新select
+            buildingOptionsElement.selectpicker('refresh');
+        }
+    </script>
+
+    <!-- 房间列表相关 -->
+    <script>
+        var $table = $('#table')
+        // 返回的数据添加序号的
+        function responseHandler(res) {
+            res.rows.forEach(function (row, i) {
+                row.index = i + 1
+            })
+            return res
+        }
+
+        function operateFormatter(value, row, index) {
+            return [
+                '<a id="editRoomButton" class="edit" href="javascript:void(0)" title="编辑">',
+                '<i class="fa fa-edit"></i>',
+                '</a>  ',
+                '<a id="deleteRoomButton" class="remove" href="javascript:void(0)" title="删除">',
+                '<i class="fa fa-trash"></i>',
+                '</a>'
+            ].join('')
+        }
+
+        window.operateEvents = {
+            'click #editRoomButton': function (e, value, row, index) {
+                document.getElementById("editRoomName").value = row.roomName;
+                document.getElementById("editRoomMemo").value = row.memo;
+                document.getElementById("editRoomId").value = row.roomId;
+                $('#buildingOptionsOnEditRoomForm').selectpicker('val', '' + row.buildingId);
+                $('#editRoomModal').modal('show');
+            },
+            'click #deleteRoomButton': function (e, value, row, index) {
+                $table.bootstrapTable('remove', {
+                    field: 'index',
+                    values: [row.index]
+                })
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8081/rooms/delete/" + row.roomId,
+                    data: { page: $("#page").val(), limit: 5 },
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+            }
+        }
+
+        function queryParams(params) {
+            params.roomName = document.getElementById("searchRoomName").value;
+            params.memo = document.getElementById("searchRoomMemo").value ;
+            return params
+        }
+
+        function getValueIdFromOptions(elementId) {
+            var idSelect = $(elementId).val();
+            var valueId = idSelect == '' ? 0 : idSelect; // 如果是空窜，则改成0
+            return valueId;
+        }
+
+        <!-- 各种按钮事件 -->
+        $(function () {
+            $("#submitEditRoomFormButton").click(function(){
+
+                var roomJson = {
+                    roomName : document.getElementById("editRoomName").value,
+                    memo : document.getElementById("editRoomMemo").value ,
+                    roomId : document.getElementById("editRoomId").value,
+                    buildingId : getValueIdFromOptions("#buildingOptionsOnEditRoomForm")
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8081/rooms/update",
+                    data: roomJson,
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+                alert("信息提交成功");
+                $table.bootstrapTable('refresh');
+            });
+
+            $("#searchRoomFormButton").click(function () {
+                $table.bootstrapTable('refresh');
+                $('#searchRoomModal').modal('hide');
+            });
+
+            $("#clearSearchRoomFormButton").click(function () {
+                document.getElementById("searchRoomName").value = '';
+                document.getElementById("searchRoomMemo").value = '';
+            });
+
+            $("#addRoomButton").click(function () {
+                document.getElementById("addRoomName").value = '';
+                document.getElementById("addRoomMemo").value = '';
+                $('#addRoomModal').modal('show')
+            });
+
+            $("#submitAddRoomFormButton").click(function(){
+                var roomJson = {
+                    roomName : document.getElementById("addRoomName").value,
+                    memo : document.getElementById("addRoomMemo").value,
+                    buildingId : getValueIdFromOptions("#buildingOptionsOnAddRoomForm")
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8081/rooms/add",
+                    data: roomJson,
+                    dataType: "JSON",
+                    success: function(result) {}
+                });
+                alert("信息提交成功");
+                $table.bootstrapTable('refresh');
+            });
+        });
+
+        $(function() {
+            $table.bootstrapTable()
+        })
+
+        function buttons () {
+            return {
+                btnSearch: {
+                    text: '按条件查询',
+                    icon: 'fa-search',
+                    event: function () {
+                        // alert('Do some stuff to e.g. add a new row')
+                        $('#searchRoomModal').modal('show')
+                    },
+                    attributes: {
+                        title: '查询'
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

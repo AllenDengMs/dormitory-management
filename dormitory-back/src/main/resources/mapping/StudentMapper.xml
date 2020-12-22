@@ -4,17 +4,17 @@
 <mapper namespace="cn.organization.dormitory.dao.StudentMapper">
   <insert id="addStudent">
     INSERT INTO student (
-      id,
-      name,
+      student_id,
+      student_name,
       sex,
-      building,
+      building_id,
       room_id,
       phone
     )VALUES (
-      #{id},
-      #{name},
+      #{studentId},
+      #{studentName},
       #{sex},
-      #{building},
+      #{buildingId},
       #{roomId},
       #{phone}
     )
@@ -22,45 +22,61 @@
 
   <update id="updateStudent">
     UPDATE student SET
-      name = #{name},
+      student_name = #{studentName},
+      student_id = #{studentId},
       phone = #{phone},
-      building = #{building},
+      building_id = #{buildingId},
       sex = #{sex},
       room_id = #{roomId}
     WHERE id = #{id}
   </update>
 
   <delete id="deleteStudent">
-    DELETE FROM student WHERE id = #{id}
+    DELETE FROM student WHERE student_id = #{studentId}
   </delete>
 
   <select id="countStudents" resultType="java.lang.Integer">
-    SELECT COUNT(1) FROM student
+    SELECT COUNT(1) FROM student s
+    <include refid="queryStudentJoinOnTable"/>
     <include refid="studentQueryBuilder"/>
   </select>
 
   <select id="queryStudents" resultType="cn.organization.dormitory.entity.Student">
-    SELECT * FROM student
+    SELECT
+        s.*,
+        b.building_name,
+        r.room_name
+    FROM student s
+    <include refid="queryStudentJoinOnTable"/>
     <include refid="studentQueryBuilder"/>
+    ORDER BY s.id DESC
     LIMIT #{offset}, #{limit}
   </select>
 
+  <sql id="queryStudentJoinOnTable">
+    LEFT JOIN building b ON b.building_id = s.building_id
+    LEFT JOIN room r ON r.room_id = s.room_id
+  </sql>
+
   <sql id="studentQueryBuilder">
     WHERE 1=1
-    <if test="name != null">
-      AND name LIKE concat('%', #{name}, '%')
+    <if test="studentName != null">
+      AND s.student_name LIKE concat('%', #{studentName}, '%')
     </if>
-    <if test="id != null">
-      AND id LIKE concat('%', #{id}, '%')
+    <if test="sex != null">
+      AND s.sex = #{sex}
     </if>
-    <if test="roomId != null">
-      AND room_id LIKE concat('%', #{roomId}, '%')
+    <if test="studentId != null">
+      AND s.student_id LIKE concat('%', #{studentId}, '%')
     </if>
     <if test="phone != null">
-      AND phone LIKE concat('%', #{phone}, '%')
+      AND s.phone LIKE concat('%', #{phone}, '%')
     </if>
-    <if test="building != null">
-      AND building LIKE concat('%', #{building}, '%')
+    <if test="roomId != null">
+      AND s.room_id = #{roomId}
+    </if>
+    <if test="buildingId != null">
+      AND s.building_id = #{buildingId}
     </if>
   </sql>
 </mapper>

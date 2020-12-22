@@ -5,27 +5,40 @@ package cn.organization.dormitory.entity;
  */
 public class Student {
 
-  public int id;
-  public String name;
-  public String sex;
-  public String building;
-  public String roomId;
-  public String phone;
+  private Integer id;
+  private Integer studentId; // 学号
+  private String studentName;
+  private String sex;
+  private Integer buildingId;
+  private Integer roomId;
+  private String phone;
 
-  public int getId() {
+  // 冗余字段，方便前端显示数据而已：
+  private String buildingName;
+  private String roomName;
+
+  public Integer getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
+  public Integer getStudentId() {
+    return studentId;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setStudentId(Integer studentId) {
+    this.studentId = studentId;
+  }
+
+  public String getStudentName() {
+    return studentName;
+  }
+
+  public void setStudentName(String studentName) {
+    this.studentName = studentName;
   }
 
   public String getSex() {
@@ -36,19 +49,19 @@ public class Student {
     this.sex = sex;
   }
 
-  public String getBuilding() {
-    return building;
+  public Integer getBuildingId() {
+    return buildingId;
   }
 
-  public void setBuilding(String building) {
-    this.building = building;
+  public void setBuildingId(Integer buildingId) {
+    this.buildingId = buildingId;
   }
 
-  public String getRoomId() {
+  public Integer getRoomId() {
     return roomId;
   }
 
-  public void setRoomId(String roomId) {
+  public void setRoomId(Integer roomId) {
     this.roomId = roomId;
   }
 
@@ -58,5 +71,21 @@ public class Student {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getBuildingName() {
+    return buildingName;
+  }
+
+  public void setBuildingName(String buildingName) {
+    this.buildingName = buildingName;
+  }
+
+  public String getRoomName() {
+    return roomName;
+  }
+
+  public void setRoomName(String roomName) {
+    this.roomName = roomName;
   }
 }
