@@ -197,6 +197,11 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
+                            <select class="selectpicker form-control" id="buildingOptionsOnSearchRoomForm" name="buildingOptionsOnSearchRoomForm">
+                                <option value="">--请选择楼栋--</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="searchRoomName" class="roomNameLabel">房间编号</label>
                             <input type="text" class="form-control" id="searchRoomName">
                         </div>
@@ -235,6 +240,7 @@
         $(document).ready(function(){
             var buildings = getBuildings();
             initBuildingOptions("#buildingOptionsOnAddRoomForm", buildings);
+            initBuildingOptions("#buildingOptionsOnSearchRoomForm", buildings);
             initBuildingOptions("#buildingOptionsOnEditRoomForm", buildings);
         });// onReady
 
@@ -316,6 +322,7 @@
         function queryParams(params) {
             params.roomName = document.getElementById("searchRoomName").value;
             params.memo = document.getElementById("searchRoomMemo").value ;
+            params.buildingId = $("#buildingOptionsOnSearchRoomForm").val();
             return params
         }
 
@@ -354,11 +361,14 @@
             $("#clearSearchRoomFormButton").click(function () {
                 document.getElementById("searchRoomName").value = '';
                 document.getElementById("searchRoomMemo").value = '';
+                $("#buildingOptionsOnSearchRoomForm").selectpicker('val', '');
             });
 
             $("#addRoomButton").click(function () {
                 document.getElementById("addRoomName").value = '';
                 document.getElementById("addRoomMemo").value = '';
+                // 重置add表单的下拉框
+                $("#buildingOptionsOnSearchRoomForm").selectpicker('val', '');
                 $('#addRoomModal').modal('show')
             });
 
